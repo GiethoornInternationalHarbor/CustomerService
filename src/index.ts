@@ -5,17 +5,18 @@ import * as http from 'http';
 import mongoose = require('mongoose');
 import * as logger from 'morgan';
 import * as apiRoutes from './api';
-import { Config } from './config/config.const';
 import { ApiError } from './errors';
 
-const port = Config.port;
+require('dotenv').config();
+
+const port = process.env.PORT;
 const app = express();
 
 mongoose.Promise = global.Promise;
 
 if (process.env.NODE_ENV !== 'test') {
     // Connect to MongoDB.
-    mongoose.connect(Config.mongoDbUri);
+    mongoose.connect(process.env.MONGODB_URI);
 
     mongoose.connection.on('error', (error) => {
         console.error('MongoDB connection error. Please make sure MongoDB is running.', error);
@@ -32,7 +33,7 @@ app.use(logger('dev'));
 // CORS headers
 app.use((req, res, next) => {
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', Config.allowOrigin);
+    res.setHeader('Access-Control-Allow-Origin', process.env.ALLOW_ORIGIN);
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow
