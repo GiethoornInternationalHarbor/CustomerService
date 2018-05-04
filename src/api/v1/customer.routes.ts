@@ -1,53 +1,29 @@
 import express = require('express');
 import { CastError } from 'mongoose';
 import { ApiError } from '../../errors/index';
-import { IUserDocument } from '../../model/schemas/user.schema';
-import { IUserModel, User } from '../../model/user.model';
-import { UserService } from '../../service/user.service';
+import { Customer, ICustomerModel } from '../../model/customer.model';
+import { ICustomerDocument } from '../../model/schemas/customer.schema';
+import { CustomerService } from '../../service/customer.service';
 import { expressAsync } from '../../utils/express.async';
 import { ValidationHelper } from '../../utils/validationhelper';
 
 const routes = express.Router();
 
-routes.get('/', expressAsync(async (req, res, next) => {
-
-    let users;
-
-    users = await UserService.getusers();
-
-    res.json(users);
-}));
-
-routes.get('/:id', expressAsync(async (req, res, next) => {
-
-    if (!ValidationHelper.isValidMongoId(req.params.id)) {
-        throw new ApiError(400, 'Invalid ID!');
-    }
-
-    const user = await UserService.getUser(req.params.id);
-
-    if (!user) {
-        throw new ApiError(404, 'Accommodation not found');
-    }
-
-    res.json(user);
-}));
-
 routes.post('/', expressAsync(async (req, res, next) => {
-    // Get the user id
-    const userId = req.body.id;
+    // Get the customer id
+    const customerId = req.body.id;
 
     const reqBody = req.body;
 
-    const newUser = {
+    const newCustomer = {
         name: reqBody.name,
         email: reqBody.email,
         password: reqBody.password
-    } as IUserDocument;
+    } as ICustomerDocument;
 
-    const user = await UserService.addUser(newUser);
+    const customer = await CustomerService.addCustomer(newCustomer);
 
-    res.status(201).send(user);
+    res.status(201).send(customer);
 }));
 
 routes.put('/:id', expressAsync(async (req, res, next) => {
@@ -55,10 +31,10 @@ routes.put('/:id', expressAsync(async (req, res, next) => {
         throw new ApiError(400, 'Invalid ID!');
     }
 
-    let user;
+    let customer;
 
     try {
-        user = await UserService.updateUser(req.params.id, req.body);
+        customer = await CustomerService.updateCustomer(req.params.id, req.body);
     } catch (err) {
         if (err instanceof CastError as any) {
             throw new ApiError(400, err.path + ' must be of type ' + err.kind);
@@ -67,7 +43,7 @@ routes.put('/:id', expressAsync(async (req, res, next) => {
         }
     }
 
-    res.json(user);
+    res.json(customer);
 }));
 
 routes.delete('/:id', expressAsync(async (req, res, next) => {
@@ -75,7 +51,7 @@ routes.delete('/:id', expressAsync(async (req, res, next) => {
         throw new ApiError(400, 'Invalid id supplied!');
     }
 
-    const response = await UserService.deleteUser(req.params.id);
+    const response = await CustomerService.deleteCustomer(req.params.id);
     if (!response) {
         throw new ApiError(400, 'Invalid id supplied!');
     } else {

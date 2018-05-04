@@ -1,4 +1,4 @@
 import { ApiError } from './api.error';
-import { UserError } from './user.error';
+import { CustomerError } from './customer.error';
 
-export { ApiError, UserError };
+export { ApiError, CustomerError };

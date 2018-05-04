@@ -1,13 +1,13 @@
 import { Document, Schema } from 'mongoose';
 
-export interface IUserDocument extends Document {
+export interface ICustomerDocument extends Document {
     name: string;
     email: string;
     password: string;
     comparePassword: (password: string) => Promise<boolean>;
 }
 
-const userSchema: Schema = new Schema({
+const customerSchema: Schema = new Schema({
     name: {
         type: String,
         required: true
@@ -23,4 +23,4 @@ const userSchema: Schema = new Schema({
     }
 });
 
-export const UserSchema = userSchema;
+export const CustomerSchema = customerSchema;

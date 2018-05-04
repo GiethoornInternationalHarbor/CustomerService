@@ -1,7 +1,7 @@
-export class UserError extends Error {
+export class CustomerError extends Error {
 
     /**
-     * Initializes the UserError instance
+     * Initializes the CustomerError instance
      * @param message The message of the error
      */
     constructor(message?: string) {

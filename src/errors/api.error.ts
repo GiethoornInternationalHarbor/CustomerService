@@ -1,6 +1,6 @@
 export class ApiError extends Error {
     /**
-     * The status code that should be returned to the user
+     * The status code that should be returned to the customer
      */
     public statusCode: number;
 
