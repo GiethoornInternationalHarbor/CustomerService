@@ -1,0 +1,37 @@
+branches:
+  only:
+    - master
+
+jobs:
+  include:
+    - stage: test
+      language: node_js
+      node_js:
+        - 8
+      cache: yarn
+      script:
+        - yarn global add codecov
+        - yarn test
+      after_success: 
+        - yarn coverage
+        - codecov
+    - stage: build
+      services:
+        - docker
+      before_script:
+        - docker pull "${IMAGE_NAME}:latest" || true
+      install: skip
+      env:
+        - IMAGE_NAME=giethoorninternationalharbor/CustomerService
+        - COMMIT=${TRAVIS_COMMIT::8}
+      script:
+        - docker build --pull --cache-from "${IMAGE_NAME}:latest" --tag "$IMAGE_NAME" .
+      before_deploy:
+        - echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" --password-stdin
+        - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+        - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${COMMIT}" 
+      deploy:
+        provider: script
+        script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${COMMIT}" 
+        on:
+          branch: master
