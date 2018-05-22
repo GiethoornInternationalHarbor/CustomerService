@@ -6,7 +6,5 @@ export function mapModelToEntity<TModel extends Document, TEntity>(
   model: TModel,
   resultingType: INewable<TEntity>
 ) {
-  const obj: any = model.toJSON();
-
-  return new resultingType(obj);
+  return new resultingType(model.toJSON());
 }

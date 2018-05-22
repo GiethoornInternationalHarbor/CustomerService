@@ -2,10 +2,10 @@ import { Customer } from '../../domain/customer';
 
 export interface ICustomerRepository {
 
-    AddCustomer(customer: Customer): Promise<Customer>;
+    addCustomer(customer: Customer): Promise<Customer>;
 
-    UpdateCustomer(id: string, customer: Customer): Promise<Customer>;
+    updateCustomer(id: string, customer: Customer): Promise<Customer>;
 
-    DeleteCustomer(id: String): Promise<Customer>;
+    deleteCustomer(id: String): Promise<Customer>;
 
 }

@@ -21,8 +21,7 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
     const customerRepo = await this.getCustomerRepository();
 
     // Save it in the repository, since we are sure it is valid now
-    const createdCustomer = await customerRepo.AddCustomer(customer);
-
+    const createdCustomer = await customerRepo.addCustomer(customer);
 
     // Now publish it as an message
     const messagePublisher = await this.getMessagePublisher();
@@ -35,7 +34,7 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
 
     const customerRepo = await this.getCustomerRepository();
 
-    const UpdatedCustomer = await customerRepo.UpdateCustomer(customer._id, customer);
+    const UpdatedCustomer = await customerRepo.updateCustomer(customer._id, customer);
 
     const messagePublisher = await this.getMessagePublisher();
     await messagePublisher.publishMessage(MessageType.CustomerUpdated, UpdatedCustomer);
@@ -46,7 +45,7 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
   public async delete(id): Promise<Customer> {
     const customerRepo = await this.getCustomerRepository();
 
-    const DeletedCustomer = await customerRepo.DeleteCustomer(id);
+    const DeletedCustomer = await customerRepo.deleteCustomer(id);
 
     const messagePublisher = await this.getMessagePublisher();
     await messagePublisher.publishMessage(MessageType.CustomerDeleted, DeletedCustomer);
@@ -66,7 +65,6 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
    * Gets the message publisher
    */
   private async getMessagePublisher() {
-    const t = await this.messagePublisherProvider(RabbitMQExchange.Default);
-    return t;
+    return this.messagePublisherProvider(RabbitMQExchange.Default);
   }
 }

@@ -19,7 +19,7 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
     const customer = await this.Model.findById(id);
   }
 
-  public async AddCustomer(customer: Customer): Promise<Customer> {
+  public async addCustomer(customer: Customer): Promise<Customer> {
     const createdModel = await this.Model.create(customer);
 
     const createdCustomer = mapModelToEntity<ICustomerDocument, Customer>(
@@ -30,7 +30,7 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
     return createdCustomer;
   }
 
-  public async UpdateCustomer(id: string, customer: Customer): Promise<Customer> {
+  public async updateCustomer(id: string, customer: Customer): Promise<Customer> {
    const updatedModel = await this.Model.findByIdAndUpdate(id, customer, { new: true });
    
    console.log(id);
@@ -45,11 +45,7 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
     return updatedCustomer;
   }
 
-  public async exists(id: string): Promise<boolean> {
-    return (await this.Model.count({ Id: id })) > 0;
-  }
-
-  public async DeleteCustomer(id: String): Promise<Customer> {
+  public async deleteCustomer(id: String): Promise<Customer> {
     const foundModel = await this.Model.findOneAndRemove({Id: id});
 
     if (!foundModel) {
