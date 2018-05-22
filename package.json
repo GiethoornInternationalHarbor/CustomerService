@@ -4,11 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "gulp build",
-    "start": "npm run tsc && node dist/index.js",
-    "start.dev": "gulp serve.dev",
-    "start.prod": "node dist/index.js",
-    "tsc": "tsc"
+    "start": "node dist/index.js",
+    "build": "npm run build-ts",
+    "build-ts": "tsc"
   },
   "keywords": [],
   "author": "",
