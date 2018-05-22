@@ -7,7 +7,6 @@ import { IMessageHandler } from '../messaging/imessage.handler';
 import { MessageType } from '../messaging/message.types';
 import { RabbitMQExchange } from '../rabbitmq/rabbitmq.exchanges';
 import { RabbitMQQueue } from '../rabbitmq/rabbitmq.queues';
-import { isNull } from 'util';
 
 @injectable()
 export class MessageBrokerHandlerCustomerService {
@@ -52,8 +51,8 @@ export class MessageBrokerHandlerCustomerService {
   private async handleCustomerCreated(body: any) {
     const customer = new Customer(body);
 
-    if(isNull(body)) {
-      return "null";
+    if(body === null) {
+      throw new Error("empty body");
     }
     else {
       return this.customerService.add(customer);

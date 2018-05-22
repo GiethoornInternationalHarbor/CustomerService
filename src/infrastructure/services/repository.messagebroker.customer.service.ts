@@ -34,23 +34,23 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
 
     const customerRepo = await this.getCustomerRepository();
 
-    const UpdatedCustomer = await customerRepo.updateCustomer(customer._id, customer);
+    const updatedCustomer = await customerRepo.updateCustomer(customer._id, customer);
 
     const messagePublisher = await this.getMessagePublisher();
-    await messagePublisher.publishMessage(MessageType.CustomerUpdated, UpdatedCustomer);
+    await messagePublisher.publishMessage(MessageType.CustomerUpdated, updatedCustomer);
 
-    return UpdatedCustomer;
+    return updatedCustomer;
   }
 
   public async delete(id): Promise<Customer> {
     const customerRepo = await this.getCustomerRepository();
 
-    const DeletedCustomer = await customerRepo.deleteCustomer(id);
+    const deletedCustomer = await customerRepo.deleteCustomer(id);
 
     const messagePublisher = await this.getMessagePublisher();
-    await messagePublisher.publishMessage(MessageType.CustomerDeleted, DeletedCustomer);
+    await messagePublisher.publishMessage(MessageType.CustomerDeleted, deletedCustomer);
 
-    return DeletedCustomer;
+    return deletedCustomer;
   }
 
 

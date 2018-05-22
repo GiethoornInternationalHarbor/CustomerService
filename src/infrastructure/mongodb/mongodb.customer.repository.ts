@@ -33,9 +33,6 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
   public async updateCustomer(id: string, customer: Customer): Promise<Customer> {
    const updatedModel = await this.Model.findByIdAndUpdate(id, customer, { new: true });
    
-   console.log(id);
-   
-
     if (!updatedModel) {
       throw new Error('Customer not found');
     }
