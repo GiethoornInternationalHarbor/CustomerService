@@ -1,5 +1,5 @@
 import { Document, Schema } from 'mongoose';
-import { Customer } from '../../../../domain/Customer';
+import { Customer } from '../../../../domain/customer';
 
 export interface ICustomerDocument extends Customer, Document {}
 
