@@ -10,9 +10,10 @@ export interface ICustomerService {
 
   /**
    * Handles updating customer
+   * @param id The id of the customer data
    * @param body The incoming data
    */
-  update(body: any): Promise<Customer>;
+  update(id: string, body: any): Promise<Customer>;
 
   /**
    * Handles an deleted customer

@@ -62,12 +62,12 @@ export class MessageBrokerHandlerCustomerService {
   private async handleCustomerUpdated(body?: any) {
     const customer = new Customer(body);
 
-    return this.customerService.update(customer);
+    return this.customerService.update(customer.id, customer);
   }
 
   private async handleCustomerDeleted(body: any) {
     const customer = new Customer(body);
 
-    return this.customerService.delete(customer._id);
+    return this.customerService.delete(customer.id);
   }
 }

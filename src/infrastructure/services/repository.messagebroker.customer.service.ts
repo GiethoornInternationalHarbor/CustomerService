@@ -30,11 +30,11 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
     return createdCustomer;
   }
 
-  public async update(customer: Customer): Promise<Customer> {
+  public async update(id: string, customer: Customer): Promise<Customer> {
 
     const customerRepo = await this.getCustomerRepository();
 
-    const updatedCustomer = await customerRepo.updateCustomer(customer._id, customer);
+    const updatedCustomer = await customerRepo.updateCustomer(id, customer);
 
     const messagePublisher = await this.getMessagePublisher();
     await messagePublisher.publishMessage(MessageType.CustomerUpdated, updatedCustomer);
@@ -42,7 +42,7 @@ export class RepositoryAndMessageBrokerCustomerService implements ICustomerServi
     return updatedCustomer;
   }
 
-  public async delete(id): Promise<Customer> {
+  public async delete(id: string): Promise<Customer> {
     const customerRepo = await this.getCustomerRepository();
 
     const deletedCustomer = await customerRepo.deleteCustomer(id);

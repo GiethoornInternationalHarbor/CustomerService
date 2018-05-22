@@ -15,42 +15,34 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
     this.Model = dbClient.model<ICustomerDocument>('Customer', CustomerSchema);
   }
 
-  public async getCustomer(id: string) {    
-    const customer = await this.Model.findById(id);
-  }
-
   public async addCustomer(customer: Customer): Promise<Customer> {
     const createdModel = await this.Model.create(customer);
 
-    const createdCustomer = mapModelToEntity<ICustomerDocument, Customer>(
-      createdModel,
-      Customer
-    );
+    const createdCustomer = mapModelToEntity<ICustomerDocument, Customer>(createdModel, Customer);
 
     return createdCustomer;
   }
 
   public async updateCustomer(id: string, customer: Customer): Promise<Customer> {
-   const updatedModel = await this.Model.findByIdAndUpdate(id, customer, { new: true });
-   
-    if (!updatedModel) {
+   const getCustomer = await this.Model.findOneAndUpdate(id, customer, { new: true });
+  
+    if (getCustomer === null) {
       throw new Error('Customer not found');
     }
 
-    const updatedCustomer = mapModelToEntity<ICustomerDocument, Customer>(updatedModel, Customer);
+    const updatedCustomer = mapModelToEntity<ICustomerDocument, Customer>(getCustomer, Customer);
 
     return updatedCustomer;
   }
 
-  public async deleteCustomer(id: String): Promise<Customer> {
-    const foundModel = await this.Model.findOneAndRemove({Id: id});
+  public async deleteCustomer(id: string): Promise<Customer> {
+    const foundCustomer = await this.Model.findOneAndRemove({CustomerId: id});
 
-    if (!foundModel) {
-      // This should never ever happen
+    if (foundCustomer === null) {
       throw new Error('Customer not found');
     }
 
-    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(foundModel, Customer);
+    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(foundCustomer, Customer);
 
     return deletedCustomer;
   }

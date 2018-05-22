@@ -6,6 +6,5 @@ export interface ICustomerRepository {
 
     updateCustomer(id: string, customer: Customer): Promise<Customer>;
 
-    deleteCustomer(id: String): Promise<Customer>;
-
+    deleteCustomer(id: string): Promise<Customer>;
 }
