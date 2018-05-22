@@ -22,7 +22,7 @@ jobs:
         - docker pull "${IMAGE_NAME}:latest" || true
       install: skip
       env:
-        - IMAGE_NAME=giethoorninternationalharbor/CustomerService
+        - IMAGE_NAME=giethoorninternationalharbor/customerservice
         - COMMIT=${TRAVIS_COMMIT::8}
       script:
         - docker build --pull --cache-from "${IMAGE_NAME}:latest" --tag "$IMAGE_NAME" .
