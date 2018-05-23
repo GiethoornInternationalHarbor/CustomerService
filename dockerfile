@@ -6,15 +6,12 @@ WORKDIR /app
 # Copy package json
 COPY package*.json ./
 
-COPY . .
-
 FROM build as publish
 
 FROM node:8-alpine AS runtime
 WORKDIR /app
 
 COPY --from=publish /app/package*.json ./
-COPY --from=publish /app/yarn.lock .
 COPY --from=publish /app/dist ./dist
 
 
