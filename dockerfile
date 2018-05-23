@@ -6,6 +6,8 @@ WORKDIR /app
 # Copy package json
 COPY package*.json ./
 
+COPY . .
+
 FROM build as publish
 
 FROM node:8-alpine AS runtime
