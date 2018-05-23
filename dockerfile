@@ -12,7 +12,6 @@ FROM node:8-alpine AS runtime
 WORKDIR /app
 
 COPY --from=publish /app/package*.json ./
-COPY --from=publish /app/dist /dist
 
 
 # Set the node environment
