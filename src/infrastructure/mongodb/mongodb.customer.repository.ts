@@ -36,13 +36,13 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
   }
 
   public async deleteCustomer(id: string): Promise<Customer> {
-    const foundCustomer = await this.Model.findOneAndRemove({CustomerId: id});
+    const getCustomer = await this.Model.findOneAndRemove(id);
 
-    if (foundCustomer === null) {
+    if (getCustomer === null) {
       throw new Error('Customer not found');
     }
 
-    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(foundCustomer, Customer);
+    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(getCustomer, Customer);
 
     return deletedCustomer;
   }
