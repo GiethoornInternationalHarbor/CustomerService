@@ -23,8 +23,10 @@ export class RepositoryAndMessageBrokerCustomerService
     return await customerRepo.getAll();
   }
 
-  public async add(customer: Customer): Promise<Customer> {
+  public async add(body: any): Promise<Customer> {
     const customerRepo = await this.getCustomerRepository();
+
+    const customer = new Customer(body);
 
     // Save it in the repository, since we are sure it is valid now
     const createdCustomer = await customerRepo.addCustomer(customer);
@@ -39,8 +41,10 @@ export class RepositoryAndMessageBrokerCustomerService
     return createdCustomer;
   }
 
-  public async update(id: string, customer: Customer): Promise<Customer> {
+  public async update(id: string, body: any): Promise<Customer> {
     const customerRepo = await this.getCustomerRepository();
+
+    const customer = new Customer(body);
 
     const updatedCustomer = await customerRepo.updateCustomer(id, customer);
 
