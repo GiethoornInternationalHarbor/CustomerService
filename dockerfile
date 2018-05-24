@@ -6,8 +6,12 @@ WORKDIR /app
 # Copy package json
 COPY package*.json ./
 
-FROM build as publish
+# Install dependencies
 RUN npm install
+
+COPY . .
+
+FROM build as publish
 RUN npm run-script build
 
 FROM node:8-alpine AS runtime
@@ -18,6 +22,8 @@ COPY --from=publish /app/dist ./dist
 
 # Set the node environment
 ENV NODE_ENV=production
+
+RUN npm install --only=production
 
 # Expose the default port
 EXPOSE 3000
