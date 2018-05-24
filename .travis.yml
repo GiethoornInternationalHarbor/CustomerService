@@ -1,0 +1,26 @@
+branches:
+  only:
+    - master
+
+jobs:
+  include:
+    - stage: build
+      services:
+        - docker
+      before_script:
+        - docker pull "${IMAGE_NAME}:latest" || true
+      install: skip
+      env:
+        - IMAGE_NAME=giethoorninternationalharbor/customerservice
+        - COMMIT=${TRAVIS_COMMIT::8}
+      script:
+        - docker build --pull --cache-from "${IMAGE_NAME}:latest" --tag "$IMAGE_NAME" .
+      before_deploy:
+        - echo "$REGISTRY_PASS" | docker login -u "$REGISTRY_USER" --password-stdin
+        - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+        - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${COMMIT}" 
+      deploy:
+        provider: script
+        script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${COMMIT}" 
+        on:
+          branch: master
