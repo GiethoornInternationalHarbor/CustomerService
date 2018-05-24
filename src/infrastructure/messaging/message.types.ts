@@ -22,7 +22,7 @@ export namespace MessageType {
   }
 
 const messageTypeName = new Map<MessageType, string>([
-    [MessageType.CustomerCreated, 'CustomerCreatedEvent'],
-    [MessageType.CustomerUpdated, 'CustomerUpdatedEvent'],
-    [MessageType.CustomerDeleted, 'CustomerDeletedEvent']
+    [MessageType.CustomerCreated, 'CustomerCreated'],
+    [MessageType.CustomerUpdated, 'CustomerUpdated'],
+    [MessageType.CustomerDeleted, 'CustomerDeleted']
   ]);

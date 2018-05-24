@@ -5,7 +5,7 @@ import { controller, httpPost, httpDelete, httpPut, interfaces, next, request, r
 import { ICustomerService } from '../application/service/ICustomer.service';
 import { TYPES } from '../di/types';
 
-@controller('/api/customers')
+@controller('/api/customer')
 export class CustomerController implements interfaces.Controller {
   constructor(
     @inject(TYPES.ICustomerService) private customerService: ICustomerService
