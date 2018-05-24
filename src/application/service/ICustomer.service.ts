@@ -1,6 +1,10 @@
 import { Customer } from '../../domain/customer';
 
 export interface ICustomerService {
+  /**
+   * Gets all the customers
+   */
+  getAll(): Promise<Customer[]>;
 
   /**
    * Handles adding customer
@@ -20,6 +24,4 @@ export interface ICustomerService {
    * @param id The id of a customer
    */
   delete(id: string): Promise<Customer>;
-
-
 }
