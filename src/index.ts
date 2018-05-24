@@ -4,7 +4,6 @@ import { diContainer } from './di/di.config';
 import { bootstrap } from './di/bootstrap';
 import { TYPES } from './di/types';
 import { checkInfrastructureInitialization } from './infrastructure/di/di.config';
-import { MessageBrokerHandlerCustomerService } from './infrastructure/services/messagebroker.handler.customer.service';
 dotenv.config();
 
 async function runApp() {
@@ -12,9 +11,7 @@ async function runApp() {
 
   await checkInfrastructureInitialization();
 
-  const messageHandler = diContainer.get<MessageBrokerHandlerCustomerService>(TYPES.MessageHandler);
-
-  return Promise.all([expressApp, messageHandler.postInit()]);
+  return Promise.all([expressApp]);
 }
 
 (async () => {
