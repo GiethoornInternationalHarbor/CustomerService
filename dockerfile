@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 FROM build as publish
-RUN npm build
+RUN npm run build
 
 FROM node:8-alpine AS runtime
 WORKDIR /app
