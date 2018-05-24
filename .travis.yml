@@ -4,10 +4,6 @@ branches:
 
 jobs:
   include:
-    - stage: test
-      language: node_js
-      node_js:
-        - 8
     - stage: build
       services:
         - docker

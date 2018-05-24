@@ -7,12 +7,12 @@ WORKDIR /app
 COPY package*.json ./
 
 FROM build as publish
+RUN npm build
 
 FROM node:8-alpine AS runtime
 WORKDIR /app
 
 COPY --from=publish /app/package*.json ./
-
 
 # Set the node environment
 ENV NODE_ENV=production
