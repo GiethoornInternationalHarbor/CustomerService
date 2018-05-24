@@ -4,7 +4,10 @@ import { TYPES } from '../../di/types';
 import { Customer } from '../../domain/customer';
 import { ICustomerRepository } from '../repository/icustomerRepository';
 import { mapModelToEntity } from './helpers/mapper.helper';
-import { ICustomerDocument, CustomerSchema } from './model/schema/customer.schema';
+import {
+  ICustomerDocument,
+  CustomerSchema
+} from './model/schema/customer.schema';
 import { MongoDbClient } from './mongodb.client';
 
 @injectable()
@@ -15,22 +18,43 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
     this.Model = dbClient.model<ICustomerDocument>('Customer', CustomerSchema);
   }
 
+  public async getAll(): Promise<Customer[]> {
+    const foundCustomers = await this.Model.find();
+
+    const correctedCustomers = foundCustomers.map(x =>
+      mapModelToEntity<ICustomerDocument, Customer>(x, Customer)
+    );
+
+    return correctedCustomers;
+  }
+
   public async addCustomer(customer: Customer): Promise<Customer> {
     const createdModel = await this.Model.create(customer);
 
-    const createdCustomer = mapModelToEntity<ICustomerDocument, Customer>(createdModel, Customer);
+    const createdCustomer = mapModelToEntity<ICustomerDocument, Customer>(
+      createdModel,
+      Customer
+    );
 
     return createdCustomer;
   }
 
-  public async updateCustomer(id: string, customer: Customer): Promise<Customer> {
-   const getCustomer = await this.Model.findOneAndUpdate(id, customer, { new: true });
-  
+  public async updateCustomer(
+    id: string,
+    customer: Customer
+  ): Promise<Customer> {
+    const getCustomer = await this.Model.findOneAndUpdate(id, customer, {
+      new: true
+    });
+
     if (getCustomer === null) {
       throw new Error('Customer not found');
     }
 
-    const updatedCustomer = mapModelToEntity<ICustomerDocument, Customer>(getCustomer, Customer);
+    const updatedCustomer = mapModelToEntity<ICustomerDocument, Customer>(
+      getCustomer,
+      Customer
+    );
 
     return updatedCustomer;
   }
@@ -42,7 +66,10 @@ export class MongoDbCustomerRepository implements ICustomerRepository {
       throw new Error('Customer not found');
     }
 
-    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(getCustomer, Customer);
+    const deletedCustomer = mapModelToEntity<ICustomerDocument, Customer>(
+      getCustomer,
+      Customer
+    );
 
     return deletedCustomer;
   }
